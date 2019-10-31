@@ -359,7 +359,7 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 	const bool capture = pos.isCaptureMove(m);
 	const bool check = pos.moveGivesCheck(m);
 	const bool doubleCheck = pos.moveGivesDoubleCheck(m);
-	unsigned int legalReplies;
+	unsigned int checkMate;
 	const bitboardIndex piece = pos.getPieceAt( m.getFrom() );
 	const bool pawnMove = isPawn(piece);
 	const bool isPromotion = m.isPromotionMove();
@@ -370,12 +370,11 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 	bool rankFlag = false;
 
 
-	// calc legal reply to this move
+	// calc checkmate
 	{
 		Position p(pos, Position::pawnHash::off);
 		p.doMove(m);
-		legalReplies = p.getNumberOfLegalMoves();
-		p.undoMove();
+		checkMate = p.isCheckMate();
 	}
 
 
@@ -467,7 +466,11 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 	// add check information
 	if( check )
 	{
-		if( legalReplies > 0 )
+		if( checkMate )
+		{
+			s+="#";
+		}
+		else 
 		{
 			if( doubleCheck )
 			{
@@ -477,10 +480,6 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 			{
 				s+="+";
 			}
-		}
-		else
-		{
-			s+="#";
 		}
 	}
 	return s;

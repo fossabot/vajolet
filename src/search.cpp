@@ -98,6 +98,7 @@ public:
 	void showLine(){ _showLine= true;}
 	SearchResult manageNewSearch();
 	Position& getPosition();
+	void setUOI( std::unique_ptr<UciOutput> UOI );
 
 private:
 	std::unique_ptr<logWriter> _lw;
@@ -173,7 +174,6 @@ private:
 	void excludeRootMoves( std::vector<rootMove>& temporaryResults, unsigned int index, std::vector<Move>& toBeExcludedMove, bool masterThread);
 	void idLoop(std::vector<rootMove>& temporaryResults, unsigned int index, std::vector<Move>& toBeExcludedMove, int depth = 1, Score alpha = -SCORE_INFINITE, Score beta = SCORE_INFINITE, bool masterThread = false );
 
-	void setUOI( std::unique_ptr<UciOutput> UOI );
 	static Score futility(int depth, bool improving );
 	Score getDrawValue() const;
 
@@ -2215,3 +2215,4 @@ unsigned long long Search::getTbHits() const{ return pimpl->getTbHits(); }
 void Search::showLine(){ pimpl->showLine(); }
 SearchResult Search::manageNewSearch(){ return pimpl->manageNewSearch(); }
 Position& Search::getPosition(){ return pimpl->getPosition(); }
+void Search::setUOI( std::unique_ptr<UciOutput> UOI ) { pimpl->setUOI(std::move(UOI));};

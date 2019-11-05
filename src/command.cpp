@@ -386,7 +386,7 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 		while ( ( mm = mp.getNextMove() ) )
 		{
 			if( pos.getPieceAt( mm.getFrom() ) == piece 
-				&& Pawns != piece
+				&& !pawnMove
 				&& ( mm.getTo() == m.getTo() ) 
 				&& ( mm.getFrom() != m.getFrom() )
 			)

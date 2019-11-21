@@ -452,10 +452,10 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 		s += _printFileOf( m.getTo() );
 		s += _printRankOf( m.getTo() );
 		// add en passant info
-		if ( isEnPassant )
+		/*if ( isEnPassant )
 		{
 			s+="e.p.";
-		}
+		}*/
 		//promotion add promotion to
 		if(isPromotion)
 		{

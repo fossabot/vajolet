@@ -26,6 +26,7 @@
 #include "vajo_io.h"
 #include "movepicker.h"
 #include "multiPVmanager.h"
+#include "parameters.h"
 #include "position.h"
 #include "pvLineFollower.h"
 #include "rootMove.h"
@@ -99,6 +100,7 @@ public:
 	SearchResult manageNewSearch();
 	Position& getPosition();
 	void setUOI( std::unique_ptr<UciOutput> UOI );
+	SearchParameters& getSearchParameters() {return _sp;};
 
 private:
 	std::unique_ptr<logWriter> _lw;
@@ -154,6 +156,8 @@ private:
 
 
 	volatile bool _stop = false;
+	
+	SearchParameters _sp;
 
 	//--------------------------------------------------------
 	// private methods
@@ -165,7 +169,7 @@ private:
 
 
 
-	signed int razorMargin(unsigned int depth,bool cut) const {return 20000 + depth * (1248 / ONE_PLY) + cut * 20000; }
+	signed int razorMargin(unsigned int depth,bool cut) const {return _sp.razorMargin + depth * (1248 / ONE_PLY) + cut * 20000; }
 
 	template<nodeType type, bool log>Score qsearch(unsigned int ply,int depth,Score alpha,Score beta, PVline& pvLine);
 	template<nodeType type, bool log>Score alphaBeta(unsigned int ply,int depth,Score alpha,Score beta,PVline& pvLine);
@@ -2215,4 +2219,5 @@ unsigned long long Search::getTbHits() const{ return pimpl->getTbHits(); }
 void Search::showLine(){ pimpl->showLine(); }
 SearchResult Search::manageNewSearch(){ return pimpl->manageNewSearch(); }
 Position& Search::getPosition(){ return pimpl->getPosition(); }
-void Search::setUOI( std::unique_ptr<UciOutput> UOI ) { pimpl->setUOI(std::move(UOI));};
+void Search::setUOI( std::unique_ptr<UciOutput> UOI ) { pimpl->setUOI(std::move(UOI)); };
+SearchParameters& Search::getSearchParameters() { return pimpl->getSearchParameters(); };

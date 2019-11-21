@@ -363,7 +363,7 @@ std::string UciManager::impl::displayMove(const Position& pos, const Move& m)
 	const bitboardIndex piece = pos.getPieceAt( m.getFrom() );
 	const bool pawnMove = isPawn(piece);
 	const bool isPromotion = m.isPromotionMove();
-	const bool isEnPassant = m.isEnPassantMove();
+	/*const bool isEnPassant = m.isEnPassantMove();*/
 	const bool isCastle = m.isCastleMove();
 
 	bool fileFlag = false;
